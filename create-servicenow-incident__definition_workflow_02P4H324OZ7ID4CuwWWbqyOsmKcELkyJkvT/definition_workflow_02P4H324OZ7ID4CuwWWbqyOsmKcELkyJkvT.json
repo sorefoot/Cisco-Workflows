@@ -1,0 +1,395 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_02P4H324OZ7ID4CuwWWbqyOsmKcELkyJkvT",
+    "name": "Create a ServiceNow Incident",
+    "title": "Create a ServiceNow Incident",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Urgency",
+          "type": "datatype.string",
+          "is_required": false,
+          "display_on_wizard": false,
+          "is_invisible": false,
+          "variable_string_format": ""
+        },
+        "unique_name": "variable_workflow_02P4M3P681IC05q8PITlDiVLSxJ5wqin6Ir",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "Impact",
+          "type": "datatype.string",
+          "is_required": false,
+          "display_on_wizard": false,
+          "is_invisible": false,
+          "variable_string_format": ""
+        },
+        "unique_name": "variable_workflow_02P4LHY56NKAB4gn7NfxiDvOES1VJQ9qFM5",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "automation_rules": {
+        "type": [
+          "webhook.rule_event"
+        ]
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Create a ServiceNow Incident",
+      "runtime_user": {
+        "override_target_runtime_user": false,
+        "specify_on_workflow_start": false,
+        "target_default": true
+      },
+      "target": {
+        "target_type": "servicenow.endpoint",
+        "target_id": "definition_target_02P4JE5YKTDYT7hScraVKLA1XhC65L2MJ51",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_02P4HHSAME82T3tQ4Pw8bXROpfNT9XzT0xo",
+        "name": "JSONPath Query",
+        "title": "Parse JSON for alert info",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "description": "JSONPath Query to get value in JSON",
+          "display_name": "Parse JSON for alert info",
+          "input_json": "$rule.webhook rule_event.output.request_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.networkName",
+              "jsonpath_query_name": "Network",
+              "jsonpath_query_type": "string",
+              "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
+            },
+            {
+              "jsonpath_query": "$.deviceSerial",
+              "jsonpath_query_name": "Serial Number",
+              "jsonpath_query_type": "string",
+              "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
+            },
+            {
+              "jsonpath_query": "$.deviceUrl",
+              "jsonpath_query_name": "Device URL",
+              "jsonpath_query_type": "string",
+              "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
+            },
+            {
+              "jsonpath_query": "$.alertType",
+              "jsonpath_query_name": "Alert Type",
+              "jsonpath_query_type": "string",
+              "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
+            },
+            {
+              "jsonpath_query": "$.alertLevel",
+              "jsonpath_query_name": "Alert Level",
+              "jsonpath_query_type": "string",
+              "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
+            },
+            {
+              "jsonpath_query": "$.deviceName",
+              "jsonpath_query_name": "Device Name",
+              "jsonpath_query_type": "string",
+              "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
+            },
+            {
+              "jsonpath_query": "$.occurredAt",
+              "jsonpath_query_name": "Alert Time",
+              "jsonpath_query_type": "date",
+              "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSSXXX"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02P4LKTDY2MC912tvN5C9DkSOnplysU0LfT",
+        "name": "Condition Block",
+        "title": "Condition Block",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "If-Else condition block",
+          "display_name": "Condition Block",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_02P4LKTFOBXHQ3TN36mc2SQr94x02yzPPId",
+            "name": "Condition Branch",
+            "title": "Condition Branch",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_02P4HHSAME82T3tQ4Pw8bXROpfNT9XzT0xo.output.jsonpath_queries.Alert Level$",
+                "operator": "mw",
+                "right_operand": "critical"
+              },
+              "continue_on_failure": false,
+              "display_name": "Condition Branch",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_02P4LHHYUGSJH2aZLXRx19EelpTN7vYeWDw",
+                "name": "Set Variables",
+                "title": "Set Variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "description": "Set Variables",
+                  "display_name": "Set Variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_02P4H324OZ7ID4CuwWWbqyOsmKcELkyJkvT.local.variable_workflow_02P4LHY56NKAB4gn7NfxiDvOES1VJQ9qFM5$",
+                      "variable_value_new": "High"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_02P4M3SWV5KSN2tf8kZY8DPkL5pV1BSNAH4",
+                "name": "Set Variables",
+                "title": "Set Variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "description": "Set Variables",
+                  "display_name": "Set Variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_02P4H324OZ7ID4CuwWWbqyOsmKcELkyJkvT.local.variable_workflow_02P4M3P681IC05q8PITlDiVLSxJ5wqin6Ir$",
+                      "variable_value_new": "1"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_02P4LKTGWUQRV0kHl5iWCvlmB8s0GHcEaYO",
+            "name": "Condition Branch",
+            "title": "Condition Branch",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_02P4HHSAME82T3tQ4Pw8bXROpfNT9XzT0xo.output.jsonpath_queries.Alert Level$",
+                "operator": "eqi",
+                "right_operand": "warning"
+              },
+              "continue_on_failure": false,
+              "display_name": "Condition Branch",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_02P4LNDUM00HC2gO9n2R7X9prvYERglts6c",
+                "name": "Set Variables",
+                "title": "Set Variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "description": "Set Variables",
+                  "display_name": "Set Variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_02P4H324OZ7ID4CuwWWbqyOsmKcELkyJkvT.local.variable_workflow_02P4LHY56NKAB4gn7NfxiDvOES1VJQ9qFM5$",
+                      "variable_value_new": "Medium"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_02P4M3UAQQMKM0lvEvptNQEgG6IC16KstB8",
+                "name": "Set Variables",
+                "title": "Set Variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "description": "Set Variables",
+                  "display_name": "Set Variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_02P4H324OZ7ID4CuwWWbqyOsmKcELkyJkvT.local.variable_workflow_02P4M3P681IC05q8PITlDiVLSxJ5wqin6Ir$",
+                      "variable_value_new": "2"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_02P4H3QYX95CI52SBhy3vSmFfrT9kngXM01",
+        "name": "ServiceNow - New Incident",
+        "title": "ServiceNow - New Incident",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "Using the provided input, creates a \nServiceNow Incident on the provided target and returns\nthe System Id and Number of the new Incident.\n\n  \nValidation is done on some fields where possible to ensure\nthe provided input is valid before the request is sent.\nHowever, if the user provides any fields that do not exist \nor that contain invalid values, they will be ignored by \nthe server. \n\n  \nFor more information on the ServiceNow API used for this\nactivity, please see:\nhttps://www.servicenow.com/docs/bundle/yokohama-api-reference/page/integrate/inbound-rest/concept/c_TableAPI.html",
+          "display_name": "ServiceNow - New Incident",
+          "input": {
+            "variable_workflow_02M10BL7TGZ394ESRHvge4zhNAw4oEAhhoC": "",
+            "variable_workflow_02M10BL7TO0DY2EVxsvQFzYiZ3n3bR0xL6O": "",
+            "variable_workflow_02M10BL7UB9H04bQVmtT38aOcLr9xdtiWlH": "allie.pumphrey@example.com",
+            "variable_workflow_02M10BL7UQQT43QsetvslRZgU8yrEyYytrL": "{}",
+            "variable_workflow_02M10BL7VYJY13N2LP3ktuMIoZeikXs6RXI": "Alert $activity.definition_activity_02P4HHSAME82T3tQ4Pw8bXROpfNT9XzT0xo.output.jsonpath_queries.Alert Type$ : $activity.definition_activity_02P4HHSAME82T3tQ4Pw8bXROpfNT9XzT0xo.output.jsonpath_queries.Device Name$ in $activity.definition_activity_02P4HHSAME82T3tQ4Pw8bXROpfNT9XzT0xo.output.jsonpath_queries.Network$",
+            "variable_workflow_02M10BL7WDFBR2dP0pRsxlphZkZCPejKOmx": "",
+            "variable_workflow_02M10BL7X0W175Fry5UGL1ByPL2GXGA8tX7": "$activity.definition_activity_02P4HHSAME82T3tQ4Pw8bXROpfNT9XzT0xo.output.jsonpath_queries.Device Name$$activity.definition_activity_02P4HHSAME82T3tQ4Pw8bXROpfNT9XzT0xo.output.jsonpath_queries.Alert Type$occured at $activity.definition_activity_02P4HHSAME82T3tQ4Pw8bXROpfNT9XzT0xo.output.jsonpath_queries.Alert Time$lick here for device info: $activity.definition_activity_02P4HHSAME82T3tQ4Pw8bXROpfNT9XzT0xo.output.jsonpath_queries.Device URL$",
+            "variable_workflow_02M63XSEPTY9N7f5ByGg2Msd7hCly6ZK2hK": "",
+            "variable_workflow_02M63Y4F86HGJ60mFzvdax7T6RCZmRDIpJH": "$workflow.definition_workflow_02P4H324OZ7ID4CuwWWbqyOsmKcELkyJkvT.local.variable_workflow_02P4LHY56NKAB4gn7NfxiDvOES1VJQ9qFM5$",
+            "variable_workflow_02M63YDTOLN1M4fuIoUPXWCAR4mmnfT3rEj": "$workflow.definition_workflow_02P4H324OZ7ID4CuwWWbqyOsmKcELkyJkvT.local.variable_workflow_02P4M3P681IC05q8PITlDiVLSxJ5wqin6Ir$",
+            "variable_workflow_02M63Z4HGNJQ00IzDmVsqyzF93BdbxeEs0Q": "network",
+            "variable_workflow_02M63ZFHSPK7L0lyiiwns4pJMjI2EuK8CRh": "",
+            "variable_workflow_02M63ZPAHGO7M4BbTe5AzkTqXcak1Xmc9Y1": "",
+            "variable_workflow_02M63ZZIVE52C59ESxz7hgpuyzgnQoLn4bl": "",
+            "variable_workflow_02M6408YOYNBU3Vo2owDXlZ5QbdaPDTz2tr": "",
+            "variable_workflow_02M640UTYZS015FwKZOaEhyp6otm0bCuC1s": "",
+            "variable_workflow_02M6428LU2BV70wVWZePj2U7BN8FZ2kS6oM": ""
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "target_type": "servicenow.endpoint",
+            "use_workflow_target": true
+          },
+          "workflow_id": "definition_workflow_02M10BL6G8KG52k7bN0md4so6eeh6DKnLEv",
+          "workflow_name": "ServiceNow - New Incident"
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "rules": {
+    "ruleevent_02P4JII82XESB2H97BXdT9Uatp10iIWsnBm": {
+      "name": "ServiceNow Alert",
+      "title": "ServiceNow Alert",
+      "type": "webhook.rule_event",
+      "rule_type": "rule_event",
+      "base_type": "rule",
+      "object_type": "ruleevent",
+      "version": "1.0.0",
+      "properties": {
+        "description": "",
+        "disabled": false,
+        "display_name": "ServiceNow Alert",
+        "group_by": false,
+        "rule_type": "rule_event",
+        "title": "ServiceNow Alert",
+        "webhook_id": "webhook_02P4HTEV5VLEA2AGSKutJb6k7tDYD2F4iCa",
+        "workflows_config": [
+          {
+            "disabled": false,
+            "ref_id": "definition_workflow_02P4H324OZ7ID4CuwWWbqyOsmKcELkyJkvT",
+            "status": {
+              "state": "started-polling",
+              "prev_state": "started-polling",
+              "error_msg": ""
+            }
+          }
+        ]
+      },
+      "disabled": false,
+      "unique_name": "ruleevent_02P4JII82XESB2H97BXdT9Uatp10iIWsnBm"
+    }
+  },
+  "targets": {
+    "definition_target_02P4JE5YKTDYT7hScraVKLA1XhC65L2MJ51": {
+      "unique_name": "definition_target_02P4JE5YKTDYT7hScraVKLA1XhC65L2MJ51",
+      "name": "Clint's SNOW Dev",
+      "title": "Clint's SNOW Dev",
+      "type": "servicenow.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "default_runtime_user_id": "definition_runtime_user_02P4JDNYKBBK47fbKTkdIfjP37BBMeAjXA2",
+        "description": "https://dev323836.service-now.com/login.do?user_name=admin\u0026sys_action=sysverb_login\u0026user_password=mR%2F2Mo8FSei!\n",
+        "display_name": "Clint's SNOW Dev",
+        "host": "dev323836.service-now.com",
+        "ignore_proxy": false,
+        "is_https_proxy": false,
+        "protocol": "https"
+      }
+    }
+  },
+  "runtime_users": {
+    "definition_runtime_user_02P4JDNYKBBK47fbKTkdIfjP37BBMeAjXA2": {
+      "unique_name": "definition_runtime_user_02P4JDNYKBBK47fbKTkdIfjP37BBMeAjXA2",
+      "name": "Admin - SNOW",
+      "title": "Admin - SNOW",
+      "type": "runtime_user.servicenow_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "basic_password": "*****",
+        "basic_username": "admin",
+        "display_name": "Admin - SNOW"
+      }
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_02M10BL6G8KG52k7bN0md4so6eeh6DKnLEv"
+  ],
+  "webhooks": {
+    "webhook_02P4HTEV5VLEA2AGSKutJb6k7tDYD2F4iCa": {
+      "name": "Meraki Alert Webhook",
+      "title": "Meraki Alert Webhook",
+      "type": "generic.webhook",
+      "base_type": "webhook",
+      "object_type": "webhook",
+      "version": "1.0.0",
+      "properties": {
+        "display_name": "Meraki Alert Webhook",
+        "request_content_type": "application/json"
+      },
+      "unique_name": "webhook_02P4HTEV5VLEA2AGSKutJb6k7tDYD2F4iCa"
+    }
+  },
+  "dependent_workflows": [
+    "definition_workflow_02M10BL6G8KG52k7bN0md4so6eeh6DKnLEv"
+  ]
+}
