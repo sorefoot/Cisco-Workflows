@@ -1,0 +1,537 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_02OGPGPSD4T106T9NUZcPnm82vkDtxBvTFw",
+    "name": "Power Cycle MT40s",
+    "title": "Power Cycle MT40s",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "variable_type_array_02MT22SK3GO4Z3K5qiEFrW5Fuplbo4inDBV",
+        "properties": {
+          "value": [],
+          "scope": "local",
+          "name": "mt40",
+          "type": "datatype.array",
+          "is_required": false,
+          "display_on_wizard": false,
+          "is_invisible": false,
+          "variable_string_format": ""
+        },
+        "unique_name": "variable_workflow_02PE1R0MQENBQ7Y7mq5K9pTxUw5rsDN34Sg",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "orgId",
+          "type": "datatype.string",
+          "is_required": false,
+          "display_on_wizard": false,
+          "is_invisible": false,
+          "variable_string_format": ""
+        },
+        "unique_name": "variable_workflow_02OR0YP9ZX1LB2eQSs90Uj4iFhmuDFc5dC1",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "variable_type_array_01JhSTW61I3ZU2IfL7dwQox83eFDzE1qUiA",
+        "properties": {
+          "value": [],
+          "scope": "local",
+          "name": "Serials",
+          "type": "datatype.array",
+          "is_required": false,
+          "display_on_wizard": false,
+          "is_invisible": false,
+          "variable_string_format": ""
+        },
+        "unique_name": "variable_workflow_02OR1B0Y5EMKI6eZqUUJ6AXDF6cKkuD0fof",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "automation_rules": {
+        "type": [
+          "webhook.rule_event"
+        ]
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Power Cycle MT40s",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "target_type": "meraki.endpoint",
+        "target_id": "definition_target_02PE0EJ2BUTNS6dK207u9oI4wlTtnIfK18s",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_02OQYUCXE4ZN03RuompBXl8V9AM77ItkvOX",
+        "name": "Meraki - Get Organization Devices",
+        "title": "Meraki - Get Organization Devices",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "**Cisco Meraki - Devices - Get Organization Devices**\n\nList the devices in an organization that have been assigned to networks.\n\n**Target:** A Meraki Endpoint using HTTPS \"api.meraki.com\" port 443 and no path.\n\n**Account Key:** Meraki User API Key. API Key can be generated from Merkai Dashboard -\u003e User Profile -\u003e API Access.\n\nSteps:\n[] Sends Get Network request to Meraki\n[] Check if the request was successful:\n[]\u003e If it was, attempt to extract the results and set the output variables\n[]\u003e If it wasn't, return the error and marks the workflow as failed.\n\nNOTE: Empty attributes in the request are removed from the payload before sending to Meraki. \n\nMore information about this API: https://developer.cisco.com/meraki/api-v1/get-organization-networks/",
+          "display_name": "Meraki - Get Organization Devices",
+          "input": {
+            "variable_workflow_02LBZJE84MKWU3b4u5iWvF5C56j3SWvcLxU": "$workflow.definition_workflow_02OGPGPSD4T106T9NUZcPnm82vkDtxBvTFw.local.variable_workflow_02OR0YP9ZX1LB2eQSs90Uj4iFhmuDFc5dC1$",
+            "variable_workflow_02LPD34ABGELX4xRBULzEWn7yZXmlOLnhlm": "",
+            "variable_workflow_02LPD34ABGWM530L7Ref10RR1lIyS6swy7y": "mt40",
+            "variable_workflow_02LPD34ABH4NB5Y3srIX91xn9cIzEY68MMa": "withAnyTags",
+            "variable_workflow_02LPD34ABHCES6OHeiXWIvVmRKLdKquVK4f": [],
+            "variable_workflow_02LPD34ABHKTT7bzR3DO9wR6Jt8QIVkTmKA": [],
+            "variable_workflow_02LPD34ABHUR66qxroFyemfNTX3wjVrx4bB": "",
+            "variable_workflow_02LPD34ABI5767Bipcwnil1zhzAhMVqXU77": "",
+            "variable_workflow_02LPD34ABICWG2rq68sl7VROvFjqB8bmooh": [],
+            "variable_workflow_02LPD34ABIJYH3MHQNXX88Tf38tgg2nnaiV": [],
+            "variable_workflow_02LPD34ABIRIY7ksRBfahOf52zARKfji5tq": "",
+            "variable_workflow_02LPD34ABIZNM1hpRmCW4fNi50a79mCW4oF": 1000,
+            "variable_workflow_02LPD34ABJ73Y1vUpFZq8UjZK37FVXisvfT": "",
+            "variable_workflow_02LPD34ABJFEJ26DNauhcFei0QIVgWIgCYw": [],
+            "variable_workflow_02LPD34ABJV2C0tJTsG5KJNoU4RZ9yRWNBC": [],
+            "variable_workflow_02LPD34ABK6IH5MaynNsHWnm1mpCQw0TkyQ": [],
+            "variable_workflow_02LPD34ABKF695YGotxETEugS06mLWBlnVr": [],
+            "variable_workflow_02LPD34ABKNYC53bhvdbdyJKVnk3JPbMbDL": ""
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "target_type": "meraki.endpoint",
+            "use_workflow_target": true
+          },
+          "workflow_id": "definition_workflow_02LBZJE7PQZVJ3crE33ELBrscM7zWeiugTw",
+          "workflow_name": "Meraki - Get Organization Devices"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02OR1MFWM4VLY6NUPaGvKJidxq9eyUhyonG",
+        "name": "Set Variables",
+        "title": "Set Variables",
+        "type": "core.set_multiple_variables",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "Set Variables",
+          "display_name": "Set Variables",
+          "skip_execution": false,
+          "variables_to_update": [
+            {
+              "variable_to_update": "$workflow.definition_workflow_02OGPGPSD4T106T9NUZcPnm82vkDtxBvTFw.local.variable_workflow_02PE1R0MQENBQ7Y7mq5K9pTxUw5rsDN34Sg$",
+              "variable_value_new": "$activity.definition_activity_02OQYUCXE4ZN03RuompBXl8V9AM77ItkvOX.output.variable_workflow_02LBZJE84NB1F75jMCnZjaIsHHmn1NBoO2y$"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02OR1R9RESHC210GjAaM2ThIRieMcZwzScR",
+        "name": "JSONPath Query",
+        "title": "Create Serial Array",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "description": "JSONPath Query to get value in JSON",
+          "display_name": "Create Serial Array",
+          "input_json": "$activity.definition_activity_02OQYUCXE4ZN03RuompBXl8V9AM77ItkvOX.output.variable_workflow_02LBZJE84NB1F75jMCnZjaIsHHmn1NBoO2y$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$[*].serial",
+              "jsonpath_query_name": "serial",
+              "jsonpath_query_type": "string",
+              "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02OR0TSRDFCGC1dzV87d7deTIGWeRegaN98",
+        "name": "Generic Meraki API Request",
+        "title": "Check Power Status",
+        "type": "meraki.api_request",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "api_body": "{\n    \"serials\": $activity.definition_activity_02OR1R9RESHC210GjAaM2ThIRieMcZwzScR.output.jsonpath_queries.serial$\n}",
+          "api_method": "GET",
+          "api_url": "/api/v1/organizations/$workflow.definition_workflow_02OGPGPSD4T106T9NUZcPnm82vkDtxBvTFw.local.variable_workflow_02OR0YP9ZX1LB2eQSs90Uj4iFhmuDFc5dC1$/sensor/readings/latest",
+          "continue_on_failure": false,
+          "description": "Generic Meraki API Request",
+          "display_name": "Check Power Status",
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "use_workflow_target": true
+          }
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02OR2MBERHSR71tBuKw9aG00Z0fpZFUgi7W",
+        "name": "JSONPath Query",
+        "title": "Check power status",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "description": "JSONPath Query to get value in JSON",
+          "display_name": "Check power status",
+          "input_json": "$activity.definition_activity_02OR0TSRDFCGC1dzV87d7deTIGWeRegaN98.output.response_body$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$[*].readings[?(@.metric == \"downstreamPower\")].downstreamPower.enabled",
+              "jsonpath_query_name": "downstreamPower",
+              "jsonpath_query_type": "string",
+              "zdate_type_format": "yyyy-MM-dd'T'HH:mm:ssZ"
+            },
+            {
+              "jsonpath_query": "$[*].serial",
+              "jsonpath_query_name": "serial",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02OR2PESQPXE1019EqTymP9MDVG8gOOGs2e",
+        "name": "Condition Block",
+        "title": "Condition Block",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "If-Else condition block",
+          "display_name": "Condition Block",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_02OR2PEUFDWGR48tNb4xXP4GFyKMCl9pfl1",
+            "name": "Condition Branch",
+            "title": "Condition Branch",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": {
+                  "left_operand": "$activity.definition_activity_02OR2MBERHSR71tBuKw9aG00Z0fpZFUgi7W.output.jsonpath_queries.downstreamPower$",
+                  "operator": "eq",
+                  "right_operand": "true"
+                },
+                "operator": "or",
+                "right_operand": {
+                  "left_operand": "$activity.definition_activity_02OR2MBERHSR71tBuKw9aG00Z0fpZFUgi7W.output.jsonpath_queries.downstreamPower$",
+                  "operator": "mw",
+                  "right_operand": "*t*"
+                }
+              },
+              "continue_on_failure": false,
+              "display_name": "Condition Branch",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_02OR2YDO2H7E67EmZFVQeGMwvz6kb8WpWg6",
+                "name": "Set Variables",
+                "title": "Set Variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "description": "Set Variables",
+                  "display_name": "Set Variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_02OGPGPSD4T106T9NUZcPnm82vkDtxBvTFw.local.variable_workflow_02OR1B0Y5EMKI6eZqUUJ6AXDF6cKkuD0fof$",
+                      "variable_value_new": "$activity.definition_activity_02OR2MBERHSR71tBuKw9aG00Z0fpZFUgi7W.output.jsonpath_queries.serial$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_02OR2PLYHP5PI49ulGLdhG9trkBRPDDkKGb",
+                "name": "For Each",
+                "title": "For Each",
+                "type": "logic.for_each",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "description": "ForEach block",
+                  "display_name": "For Each",
+                  "skip_execution": false,
+                  "source_array": "$workflow.definition_workflow_02OGPGPSD4T106T9NUZcPnm82vkDtxBvTFw.local.variable_workflow_02PE1R0MQENBQ7Y7mq5K9pTxUw5rsDN34Sg$"
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_02OR2PLYJLOBW0fDLtKMCIxv5Cope0ovwzf",
+                    "name": "Generic Meraki API Request",
+                    "title": "Power cycle MT40",
+                    "type": "meraki.api_request",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "api_body": "{\n    \"operation\": \"disableDownstreamPower\"\n}",
+                      "api_method": "POST",
+                      "api_url": "/api/v1/devices/$activity.definition_activity_02OR2PLYHP5PI49ulGLdhG9trkBRPDDkKGb.input.source_array[@].serial$/sensor/commands",
+                      "continue_on_failure": false,
+                      "description": "Generic Meraki API Request",
+                      "display_name": "Power cycle MT40",
+                      "runtime_user": {
+                        "target_default": true
+                      },
+                      "skip_execution": false,
+                      "target": {
+                        "use_workflow_target": true
+                      }
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_02OR2PEVRTURD6mxfks9VqDiDCRFX59C8aS",
+            "name": "Condition Branch",
+            "title": "Condition Branch",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_02OR2MBERHSR71tBuKw9aG00Z0fpZFUgi7W.output.jsonpath_queries.downstreamPower$",
+                "operator": "ne",
+                "right_operand": "false"
+              },
+              "continue_on_failure": false,
+              "display_name": "Condition Branch",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_02OR2YYLQF6CQ1Vyf4whGokQGJNXc1KnFtu",
+                "name": "Set Variables",
+                "title": "Set Variables",
+                "type": "core.set_multiple_variables",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "description": "Set Variables",
+                  "display_name": "Set Variables",
+                  "skip_execution": false,
+                  "variables_to_update": [
+                    {
+                      "variable_to_update": "$workflow.definition_workflow_02OGPGPSD4T106T9NUZcPnm82vkDtxBvTFw.local.variable_workflow_02OR1B0Y5EMKI6eZqUUJ6AXDF6cKkuD0fof$",
+                      "variable_value_new": "$activity.definition_activity_02OR2MBERHSR71tBuKw9aG00Z0fpZFUgi7W.output.jsonpath_queries.serial$"
+                    }
+                  ]
+                },
+                "object_type": "definition_activity"
+              },
+              {
+                "unique_name": "definition_activity_02OQZIRFA3CMQ7WC3AQcWmkTXG0YDmxGp0Z",
+                "name": "For Each",
+                "title": "For Each",
+                "type": "logic.for_each",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "description": "ForEach block",
+                  "display_name": "For Each",
+                  "skip_execution": false,
+                  "source_array": "$workflow.definition_workflow_02OGPGPSD4T106T9NUZcPnm82vkDtxBvTFw.local.variable_workflow_02PE1R0MQENBQ7Y7mq5K9pTxUw5rsDN34Sg$"
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_02PE1KTL3WLQB4qQquni7bT2Su3cnQlvCn2",
+                    "name": "Generic Meraki API Request",
+                    "title": "Power cycle MT40",
+                    "type": "meraki.api_request",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "api_body": "{\n    \"operation\": \"disableDownstreamPower\"\n}",
+                      "api_method": "POST",
+                      "api_url": "/api/v1/devices/$activity.definition_activity_02OQZIRFA3CMQ7WC3AQcWmkTXG0YDmxGp0Z.input.source_array[@].serial$/sensor/commands",
+                      "continue_on_failure": false,
+                      "description": "Generic Meraki API Request",
+                      "display_name": "Power cycle MT40",
+                      "runtime_user": {
+                        "target_default": true
+                      },
+                      "skip_execution": false,
+                      "target": {
+                        "use_workflow_target": true
+                      }
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "rules": {
+    "ruleevent_02OQYCQQC6V1F3vZlKhchCg6I0mGHthOL6k": {
+      "name": "Demo Webhook Rule",
+      "title": "Demo Webhook Rule",
+      "type": "webhook.rule_event",
+      "rule_type": "rule_event",
+      "base_type": "rule",
+      "object_type": "ruleevent",
+      "version": "1.0.0",
+      "properties": {
+        "description": "",
+        "disabled": false,
+        "display_name": "Demo Webhook Rule",
+        "group_by": false,
+        "rule_type": "rule_event",
+        "title": "Demo Webhook Rule",
+        "webhook_id": "webhook_02OQYC93XA2NN0F4VoOnqhoBRpyfbv6TzhS",
+        "workflows_config": [
+          {
+            "disabled": false,
+            "ref_id": "definition_workflow_02OGPGPSD4T106T9NUZcPnm82vkDtxBvTFw",
+            "status": {
+              "state": "started-polling",
+              "prev_state": "started-polling",
+              "error_msg": ""
+            }
+          }
+        ]
+      },
+      "disabled": false,
+      "unique_name": "ruleevent_02OQYCQQC6V1F3vZlKhchCg6I0mGHthOL6k"
+    }
+  },
+  "targets": {
+    "definition_target_02PE0EJ2BUTNS6dK207u9oI4wlTtnIfK18s": {
+      "unique_name": "definition_target_02PE0EJ2BUTNS6dK207u9oI4wlTtnIfK18s",
+      "name": "Sorensen Villa",
+      "title": "Sorensen Villa",
+      "type": "meraki.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "default_runtime_user_id": "definition_runtime_user_02PE0C9DMJODS00pDJakISPAQIQJJrBTnjO",
+        "display_name": "Sorensen Villa",
+        "host": "api.meraki.com",
+        "ignore_proxy": false,
+        "is_https_proxy": false,
+        "port": 443,
+        "protocol": "https"
+      }
+    }
+  },
+  "runtime_users": {
+    "definition_runtime_user_02PE0C9DMJODS00pDJakISPAQIQJJrBTnjO": {
+      "unique_name": "definition_runtime_user_02PE0C9DMJODS00pDJakISPAQIQJJrBTnjO",
+      "name": "Clint API Key",
+      "title": "Clint API Key",
+      "type": "runtime_user.meraki_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "api_key": "*****",
+        "display_name": "Clint API Key"
+      }
+    }
+  },
+  "variable_types": {
+    "variable_type_array_02MT22SK3GO4Z3K5qiEFrW5Fuplbo4inDBV": {
+      "base_type": "datatype",
+      "name": "GenericMapArray",
+      "object_type": "variable_type_array",
+      "properties": {
+        "display_name": "GenericMapArray",
+        "elements_type_id": "variable_type_object_02MT222Y0J29A74bqd4w95vUgtWGMs1J7i1"
+      },
+      "title": "GenericMapArray",
+      "type": "datatype.arraytype",
+      "unique_name": "variable_type_array_02MT22SK3GO4Z3K5qiEFrW5Fuplbo4inDBV",
+      "variable_type_schema_id": "variable_type_schema_array_02NJGI9TXOCG26nGCMmnWrIGtw9UdcbVKEi"
+    },
+    "variable_type_object_02MT222Y0J29A74bqd4w95vUgtWGMs1J7i1": {
+      "base_type": "datatype",
+      "description": "generic map of id then name",
+      "name": "GenericMapItem",
+      "object_type": "variable_type_object",
+      "properties": {
+        "display_name": "GenericMapItem"
+      },
+      "title": "GenericMapItem",
+      "type": "datatype.objecttype",
+      "unique_name": "variable_type_object_02MT222Y0J29A74bqd4w95vUgtWGMs1J7i1",
+      "variable_type_schema_id": "variable_type_schema_object_02NJGI9QYW8EK65xUX22PPFgnyL66r7Tg84",
+      "keys": [
+        {
+          "name": "id",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "serial",
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_02LBZJE7PQZVJ3crE33ELBrscM7zWeiugTw"
+  ],
+  "webhooks": {
+    "webhook_02OQYC93XA2NN0F4VoOnqhoBRpyfbv6TzhS": {
+      "name": "Demo Webhook",
+      "title": "Demo Webhook",
+      "type": "generic.webhook",
+      "base_type": "webhook",
+      "object_type": "webhook",
+      "version": "1.0.0",
+      "properties": {
+        "display_name": "Demo Webhook",
+        "request_content_type": "application/json"
+      },
+      "unique_name": "webhook_02OQYC93XA2NN0F4VoOnqhoBRpyfbv6TzhS"
+    }
+  },
+  "dependent_workflows": [
+    "definition_workflow_02LBZJE7PQZVJ3crE33ELBrscM7zWeiugTw"
+  ]
+}
