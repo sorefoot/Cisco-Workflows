@@ -1,0 +1,225 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_02S9LWVSZ2WUX5bRIbn3EFebQaw2qgrikhK",
+    "name": "Lab Cleanup - Delete Networks from Org",
+    "title": "Lab Cleanup - Delete Networks from Org",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "input",
+          "name": "Source OrgID",
+          "type": "datatype.string",
+          "is_required": false,
+          "display_on_wizard": false,
+          "is_invisible": false,
+          "variable_string_format": ""
+        },
+        "unique_name": "variable_workflow_02S9LWVTE0WBD5km579b6EtPPVrlsVJXNOV",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "description": "Deletes all empty networks from an organization",
+      "display_name": "Lab Cleanup - Delete Networks from Org",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "target_type": "meraki.endpoint",
+        "target_id": "definition_target_02PE0EJ2BUTNS6dK207u9oI4wlTtnIfK18s",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_02S9LWVVU0ADN0KZ5E2TfmyiRrocKa8UkA8",
+        "name": "Meraki - Get Organization Networks",
+        "title": "Meraki - Get Organization Networks",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "**Cisco Meraki - Networks - Get Organization Networks**\n\nList the networks that the user has privileges on in an organization\n\n**Target:** A Meraki Endpoint using HTTPS \"api.meraki.com\" port 443 and no path.\n\n**Account Key:** Meraki User API Key. API Key can be generated from Meraki Dashboard -\u003e User Profile -\u003e API Access.\n\nSteps:\n[] Sends Get Network request to Meraki\n[] Check if the request was successful:\n[]\u003e If it was, attempt to extract the results and set the output variables\n[]\u003e If it wasn't, return the error and marks the workflow as failed.\n\nNOTE: Empty attributes in the request are removed from the payload before sending to Meraki. \n\nMore information about this API: https://developer.cisco.com/meraki/api-v1/get-organization-networks/",
+          "display_name": "Meraki - Get Organization Networks",
+          "input": {
+            "variable_workflow_02L9TZH6C81473IDtFQ0NIzW3jmXrgchtN9": "$workflow.definition_workflow_02S9LWVSZ2WUX5bRIbn3EFebQaw2qgrikhK.input.variable_workflow_02S9LWVTE0WBD5km579b6EtPPVrlsVJXNOV$",
+            "variable_workflow_02LEUL5GOHN9T53T7jFQx3T2Yo04p5Xuz0r": false,
+            "variable_workflow_02LNK5WW0RD2A20mG7v1G7gsyE2N2RrKdQd": "",
+            "variable_workflow_02LNK5WW0RTCB1AXbOwJOBVWvUx1wdyKtkt": "withAnyTags",
+            "variable_workflow_02LNK5WW0S5E21Q9biFSXTiLbHr7cWP2K7y": "",
+            "variable_workflow_02LNK5WW0SE2H1zmchhUHyfX7L0XGvKmB7W": 1000,
+            "variable_workflow_02LNK5WW0SM7R5SjIvnnytN6vYzR7wfDHeE": [],
+            "variable_workflow_02LNK5WW0STMX38BXiY2IvPQoHQliJHSCgE": [],
+            "variable_workflow_02LNK5WW0T0NX26NyApdlTn355uYJwcQGqW": "",
+            "variable_workflow_02LNK5WW0T92U1HJd1sxzFrmVvwxy7NVaQn": ""
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "target_type": "meraki.endpoint",
+            "use_workflow_target": true
+          },
+          "workflow_id": "definition_workflow_02L9TZH5W95870XebPF2g8kSyIYcawUvljX",
+          "workflow_name": "Meraki - Get Organization Networks"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02S9LWVXKRZVV7ebh83j6pC2Y5mMMBbigkn",
+        "name": "Read Table from JSON",
+        "title": "Read Table from JSON",
+        "type": "corejava.read_table_from_json",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "description": "Reading table data from JSON",
+          "display_name": "Read Table from JSON",
+          "input_json": "$activity.definition_activity_02S9LWVVU0ADN0KZ5E2TfmyiRrocKa8UkA8.output.variable_workflow_02L9TZH6C8OZI7c9t9Z0h0JHAbqCc7LuTGT$",
+          "jsonpath_query": "$",
+          "persist_output": false,
+          "populate_columns": false,
+          "skip_execution": false,
+          "table_columns": [
+            {
+              "column_name": "id",
+              "column_type": "string"
+            },
+            {
+              "column_name": "name",
+              "column_type": "string"
+            },
+            {
+              "column_name": "productTypes",
+              "column_type": "string"
+            },
+            {
+              "column_name": "notes",
+              "column_type": "string"
+            },
+            {
+              "column_name": "tags",
+              "column_type": "string"
+            },
+            {
+              "column_name": "timeZone",
+              "column_type": "string"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02S9LWW0O2FXI5pzp3zgJF55lgGLMprGQEM",
+        "name": "For Each",
+        "title": "For Each",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "ForEach block",
+          "display_name": "For Each",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_02S9LWVXKRZVV7ebh83j6pC2Y5mMMBbigkn.output.read_table_from_json$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_02S9LWW4MUV191j4N8H6wqE8L3lEnAzVRTD",
+            "name": "Meraki - Delete Network",
+            "title": "Meraki - Delete Network",
+            "type": "workflow.atomic_workflow",
+            "base_type": "subworkflow",
+            "properties": {
+              "continue_on_failure": false,
+              "description": "**Cisco Meraki - Networks - Delete Network**\n\nThe Delete Network API in the Cisco Meraki platform allows administrators to remove an existing network from their organization. This action is part of the Meraki Dashboard API and is used to manage network configurations programmatically. This permanently deletes a network and all its configurations and data from the Meraki Dashboard.\n\n**Target:** A Meraki Endpoint using HTTPS \"api.meraki.com\" port 443 and no path.\n\n**Account Key:** Meraki User API Key. API Key can be generated from Meraki Dashboard -\u003e User Profile -\u003e API Access.\n\nSteps:\n[] Sends Get Network request to Meraki\n[] Check if the request was successful:\n[]\u003e If it was, attempt to extract the results and set the output variables\n[]\u003e If it wasn't, return the error and marks the workflow as failed.\n\nNOTE: Empty attributes in the request are removed from the payload before sending to Meraki. \n\nMore information about this API: https://developer.cisco.com/meraki/api-v1/get-network/",
+              "display_name": "Meraki - Delete Network",
+              "input": {
+                "variable_workflow_02L9U70MTOQC70JMAoRJhG8ccpZsiI6RTgD": "$activity.definition_activity_02S9LWW0O2FXI5pzp3zgJF55lgGLMprGQEM.input.source_array[@].id$",
+                "variable_workflow_02L9UGVKXRBN10ZZ1ChAPqAFs7mR3b8v4Up": ""
+              },
+              "runtime_user": {
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "target_type": "meraki.endpoint",
+                "use_workflow_target": true
+              },
+              "workflow_id": "definition_workflow_02L9U70MEY7IY0sRuc0ucP3wYmmcnBilgi5",
+              "workflow_name": "Meraki - Delete Network"
+            },
+            "object_type": "definition_activity"
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_02S8SF1OS4II50ClXMS4hHex8XsCpkCXnPy",
+      "category_02OESG1QPET994Zmag4gqp8exMHMIb8Lghk"
+    ]
+  },
+  "categories": {
+    "category_02S8SF1OS4II50ClXMS4hHex8XsCpkCXnPy": {
+      "unique_name": "category_02S8SF1OS4II50ClXMS4hHex8XsCpkCXnPy",
+      "name": "Cisco Live Lab",
+      "title": "Cisco Live Lab",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "targets": {
+    "definition_target_02PE0EJ2BUTNS6dK207u9oI4wlTtnIfK18s": {
+      "unique_name": "definition_target_02PE0EJ2BUTNS6dK207u9oI4wlTtnIfK18s",
+      "name": "Sorensen Villa",
+      "title": "Sorensen Villa",
+      "type": "meraki.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "default_runtime_user_id": "definition_runtime_user_02PE0C9DMJODS00pDJakISPAQIQJJrBTnjO",
+        "display_name": "Sorensen Villa",
+        "host": "api.meraki.com",
+        "ignore_proxy": false,
+        "is_https_proxy": false,
+        "port": 443,
+        "protocol": "https"
+      }
+    }
+  },
+  "runtime_users": {
+    "definition_runtime_user_02PE0C9DMJODS00pDJakISPAQIQJJrBTnjO": {
+      "unique_name": "definition_runtime_user_02PE0C9DMJODS00pDJakISPAQIQJJrBTnjO",
+      "name": "Clint API Key",
+      "title": "Clint API Key",
+      "type": "runtime_user.meraki_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "api_key": "*****",
+        "display_name": "Clint API Key"
+      }
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_02L9TZH5W95870XebPF2g8kSyIYcawUvljX",
+    "definition_workflow_02L9U70MEY7IY0sRuc0ucP3wYmmcnBilgi5"
+  ],
+  "dependent_workflows": [
+    "definition_workflow_02L9TZH5W95870XebPF2g8kSyIYcawUvljX",
+    "definition_workflow_02L9U70MEY7IY0sRuc0ucP3wYmmcnBilgi5"
+  ]
+}
