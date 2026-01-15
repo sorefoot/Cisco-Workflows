@@ -1,0 +1,400 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_02SSBHDJHWIPV4X49VAF2rTNUyBm0nHbwS3",
+    "name": "AP Health Report",
+    "title": "AP Health Report",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "tabletype_02SSBSKPX1DXZ3QSQity5z3513X8V7BzWvt",
+        "properties": {
+          "scope": "output",
+          "name": "Mesh APs",
+          "type": "datatype.table",
+          "is_required": false,
+          "display_on_wizard": false,
+          "is_invisible": false,
+          "variable_string_format": ""
+        },
+        "unique_name": "variable_workflow_02SSBT0XU54XJ16bDE8AMYRZg23tMe0D0G0",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "delete_workflow_instance": false,
+      "display_name": "AP Health Report",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "target_type": "meraki.endpoint",
+        "target_id": "definition_target_02PE0EJ2BUTNS6dK207u9oI4wlTtnIfK18s",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_02SSBIBPY7W4J39W92s8GPrxiQanyTa4Iu8",
+        "name": "Meraki - Get Organization Networks",
+        "title": "Meraki - Get Organization Networks",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "**Cisco Meraki - Networks - Get Organization Networks**\n\nList the networks that the user has privileges on in an organization\n\n**Target:** A Meraki Endpoint using HTTPS \"api.meraki.com\" port 443 and no path.\n\n**Account Key:** Meraki User API Key. API Key can be generated from Meraki Dashboard -\u003e User Profile -\u003e API Access.\n\nSteps:\n[] Sends Get Network request to Meraki\n[] Check if the request was successful:\n[]\u003e If it was, attempt to extract the results and set the output variables\n[]\u003e If it wasn't, return the error and marks the workflow as failed.\n\nNOTE: Empty attributes in the request are removed from the payload before sending to Meraki. \n\nMore information about this API: https://developer.cisco.com/meraki/api-v1/get-organization-networks/",
+          "display_name": "Meraki - Get Organization Networks",
+          "input": {
+            "variable_workflow_02L9TZH6C81473IDtFQ0NIzW3jmXrgchtN9": "$global.variable_02QBW8U3TVT6V09OfOoLF9T1mjIbFsivocy.global.variable_02QBW8U3TVT6V09OfOoLF9T1mjIbFsivocy$",
+            "variable_workflow_02LEUL5GOHN9T53T7jFQx3T2Yo04p5Xuz0r": false,
+            "variable_workflow_02LNK5WW0RD2A20mG7v1G7gsyE2N2RrKdQd": "",
+            "variable_workflow_02LNK5WW0RTCB1AXbOwJOBVWvUx1wdyKtkt": "withAnyTags",
+            "variable_workflow_02LNK5WW0S5E21Q9biFSXTiLbHr7cWP2K7y": "",
+            "variable_workflow_02LNK5WW0SE2H1zmchhUHyfX7L0XGvKmB7W": 1000,
+            "variable_workflow_02LNK5WW0SM7R5SjIvnnytN6vYzR7wfDHeE": [],
+            "variable_workflow_02LNK5WW0STMX38BXiY2IvPQoHQliJHSCgE": [
+              "wireless"
+            ],
+            "variable_workflow_02LNK5WW0T0NX26NyApdlTn355uYJwcQGqW": "",
+            "variable_workflow_02LNK5WW0T92U1HJd1sxzFrmVvwxy7NVaQn": ""
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "target_type": "meraki.endpoint",
+            "use_workflow_target": true
+          },
+          "workflow_id": "definition_workflow_02L9TZH5W95870XebPF2g8kSyIYcawUvljX",
+          "workflow_name": "Meraki - Get Organization Networks"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02SSBJQ8SUB123F9xQCkNbA4erDQt8jQ77C",
+        "name": "Read Table from JSON",
+        "title": "Read Table from JSON",
+        "type": "corejava.read_table_from_json",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": false,
+          "description": "Reading table data from JSON",
+          "display_name": "Read Table from JSON",
+          "input_json": "$activity.definition_activity_02SSBIBPY7W4J39W92s8GPrxiQanyTa4Iu8.output.variable_workflow_02L9TZH6C8OZI7c9t9Z0h0JHAbqCc7LuTGT$",
+          "jsonpath_query": "$",
+          "persist_output": true,
+          "populate_columns": false,
+          "skip_execution": false,
+          "table_columns": [
+            {
+              "column_name": "id",
+              "column_type": "string"
+            },
+            {
+              "column_name": "name",
+              "column_type": "string"
+            }
+          ]
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02SSBIQEHWBPK2v8tjjL2SoeWUUJBAYNlMe",
+        "name": "For Each",
+        "title": "For Each",
+        "type": "logic.for_each",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "description": "ForEach block",
+          "display_name": "For Each",
+          "skip_execution": false,
+          "source_array": "$activity.definition_activity_02SSBJQ8SUB123F9xQCkNbA4erDQt8jQ77C.output.read_table_from_json$"
+        },
+        "object_type": "definition_activity",
+        "actions": [
+          {
+            "unique_name": "definition_activity_02SSBIKR0OW4C2u3qqtQaxxB869B33OdtKk",
+            "name": "Meraki - Get Network Wireless Mesh Statuses",
+            "title": "Meraki - Get Network Wireless Mesh Statuses",
+            "type": "workflow.atomic_workflow",
+            "base_type": "subworkflow",
+            "properties": {
+              "continue_on_failure": true,
+              "description": "List wireless mesh statuses for repeaters",
+              "display_name": "Meraki - Get Network Wireless Mesh Statuses",
+              "input": {
+                "variable_workflow_02OARCHP59F405KN7q3UOXdbQgojhms05I7": "$activity.definition_activity_02SSBIQEHWBPK2v8tjjL2SoeWUUJBAYNlMe.input.source_array[@].id$",
+                "variable_workflow_02P699B3ZNN543hXWaI1rvpMmy5SNvl1LsF": "",
+                "variable_workflow_02P699B3ZNNWW11RciJhNEw0BLzcU6nPhDW": "",
+                "variable_workflow_02P699B3ZNPGG7OLgIBwOMqh96j1XzDNcB4": ""
+              },
+              "runtime_user": {
+                "target_default": true
+              },
+              "skip_execution": false,
+              "target": {
+                "target_type": "meraki.endpoint",
+                "use_workflow_target": true
+              },
+              "workflow_id": "definition_workflow_02OARCHP59DKG3a0tK7TUy6BiXPtlSL1hh2",
+              "workflow_name": "Meraki - Get Network Wireless Mesh Statuses"
+            },
+            "object_type": "definition_activity"
+          },
+          {
+            "unique_name": "definition_activity_02SSBMOFG5O0M2MsccB3ksuWRzXN3EXrkGv",
+            "name": "Condition Block",
+            "title": "Check for Mesh",
+            "type": "logic.if_else",
+            "base_type": "activity",
+            "properties": {
+              "conditions": [],
+              "continue_on_failure": false,
+              "description": "If-Else condition block",
+              "display_name": "Check for Mesh",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "blocks": [
+              {
+                "unique_name": "definition_activity_02SSBMOITUQ1948o8V79JGfFY8dLeaDMf0G",
+                "name": "Condition Branch",
+                "title": "Found a Mesh?",
+                "type": "logic.condition_block",
+                "base_type": "activity",
+                "properties": {
+                  "condition": {
+                    "left_operand": "$activity.definition_activity_02SSBIKR0OW4C2u3qqtQaxxB869B33OdtKk.output.variable_workflow_02OARCHP59FVS3Z99hwb0JANLXgINlEBuo1$",
+                    "operator": "ne",
+                    "right_operand": 404
+                  },
+                  "continue_on_failure": false,
+                  "display_name": "Found a Mesh?",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_02SSBTW2WIA3I2ljjwmzPoC52795mhcZWNR",
+                    "name": "Read Table from JSON",
+                    "title": "Read Table from JSON",
+                    "type": "corejava.read_table_from_json",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "continue_on_failure": false,
+                      "description": "Reading table data from JSON",
+                      "display_name": "Read Table from JSON",
+                      "input_json": "$activity.definition_activity_02SSBIKR0OW4C2u3qqtQaxxB869B33OdtKk.output.variable_workflow_02OARCHP59HFC1z1SNDa5Y6CWSVF4djkvD1$",
+                      "jsonpath_query": "$",
+                      "persist_output": false,
+                      "populate_columns": false,
+                      "skip_execution": false,
+                      "table_columns": [
+                        {
+                          "column_name": "serial",
+                          "column_type": "string"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_02SSBUV0S3T7R6IKVpO52GQeubVDX79Zg3C",
+                    "name": "For Each",
+                    "title": "For Each",
+                    "type": "logic.for_each",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "description": "ForEach block",
+                      "display_name": "For Each",
+                      "skip_execution": false,
+                      "source_array": "$activity.definition_activity_02SSBTW2WIA3I2ljjwmzPoC52795mhcZWNR.output.read_table_from_json$"
+                    },
+                    "object_type": "definition_activity",
+                    "actions": [
+                      {
+                        "unique_name": "definition_activity_02SSBOU20SZR27MaONXilGO6K9P6sjauZGs",
+                        "name": "Add Row to Table",
+                        "title": "Add Row to Table",
+                        "type": "core.addrowtotable",
+                        "base_type": "activity",
+                        "properties": {
+                          "action_timeout": 180,
+                          "continue_on_failure": false,
+                          "description": "Add Row to Table",
+                          "display_name": "Add Row to Table",
+                          "input_table": "$workflow.definition_workflow_02SSBHDJHWIPV4X49VAF2rTNUyBm0nHbwS3.output.variable_workflow_02SSBT0XU54XJ16bDE8AMYRZg23tMe0D0G0$",
+                          "row": [
+                            {
+                              "key": "networkID",
+                              "type": "string",
+                              "value": "$activity.definition_activity_02SSBIQEHWBPK2v8tjjL2SoeWUUJBAYNlMe.input.source_array[@].id$"
+                            },
+                            {
+                              "key": "networkName",
+                              "type": "string",
+                              "value": "$activity.definition_activity_02SSBIQEHWBPK2v8tjjL2SoeWUUJBAYNlMe.input.source_array[@].name$"
+                            },
+                            {
+                              "key": "serial",
+                              "type": "string",
+                              "value": "$activity.definition_activity_02SSBUV0S3T7R6IKVpO52GQeubVDX79Zg3C.input.source_array[@].serial$"
+                            }
+                          ],
+                          "skip_execution": false
+                        },
+                        "object_type": "definition_activity"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "unique_name": "definition_activity_02SSCW122W68I41nzsKAfZYV0PTJFvcVlTY",
+        "name": "Select from Table",
+        "title": "Select from Table",
+        "type": "core.selectfromtable",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "columns": [
+            {
+              "column_name": "networkID",
+              "column_type": "string"
+            },
+            {
+              "column_name": "networkName",
+              "column_type": "string"
+            },
+            {
+              "column_name": "serial",
+              "column_type": "string"
+            }
+          ],
+          "continue_on_failure": false,
+          "description": "Select from Table",
+          "display_name": "Select from Table",
+          "input_table": "$workflow.definition_workflow_02SSBHDJHWIPV4X49VAF2rTNUyBm0nHbwS3.output.variable_workflow_02SSBT0XU54XJ16bDE8AMYRZg23tMe0D0G0$",
+          "number_of_rows": {
+            "all_rows": true
+          },
+          "persist_output": true,
+          "skip_execution": false,
+          "sorting": {
+            "no_sort": true
+          }
+        },
+        "object_type": "definition_activity"
+      }
+    ],
+    "categories": [
+      "category_1BMfMXSnJMyt5Ihqi7rWJr5N8cf"
+    ]
+  },
+  "targets": {
+    "definition_target_02PE0EJ2BUTNS6dK207u9oI4wlTtnIfK18s": {
+      "unique_name": "definition_target_02PE0EJ2BUTNS6dK207u9oI4wlTtnIfK18s",
+      "name": "Sorensen Villa",
+      "title": "Sorensen Villa",
+      "type": "meraki.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "default_runtime_user_id": "definition_runtime_user_02PE0C9DMJODS00pDJakISPAQIQJJrBTnjO",
+        "display_name": "Sorensen Villa",
+        "host": "api.meraki.com",
+        "ignore_proxy": false,
+        "is_https_proxy": false,
+        "port": 443,
+        "protocol": "https"
+      }
+    }
+  },
+  "runtime_users": {
+    "definition_runtime_user_02PE0C9DMJODS00pDJakISPAQIQJJrBTnjO": {
+      "unique_name": "definition_runtime_user_02PE0C9DMJODS00pDJakISPAQIQJJrBTnjO",
+      "name": "Clint API Key",
+      "title": "Clint API Key",
+      "type": "runtime_user.meraki_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "api_key": "*****",
+        "display_name": "Clint API Key"
+      }
+    }
+  },
+  "variables": {
+    "variable_02QBW8U3TVT6V09OfOoLF9T1mjIbFsivocy": {
+      "unique_name": "variable_02QBW8U3TVT6V09OfOoLF9T1mjIbFsivocy",
+      "properties": {
+        "value": "404005",
+        "scope": "global",
+        "name": "orgId",
+        "type": "datatype.string",
+        "is_required": false,
+        "display_on_wizard": false,
+        "is_invisible": false,
+        "variable_string_format": "text"
+      },
+      "object_type": "variable"
+    }
+  },
+  "table_types": {
+    "tabletype_02SSBSKPX1DXZ3QSQity5z3513X8V7BzWvt": {
+      "unique_name": "tabletype_02SSBSKPX1DXZ3QSQity5z3513X8V7BzWvt",
+      "data_type": "datatype.tabletype",
+      "display_name": "Meraki Mesh Networks",
+      "description": "Table to collect data from APs that are Meshed",
+      "columns": [
+        {
+          "maxLength": 50,
+          "maximum": 0,
+          "minimum": 0,
+          "name": "networkID",
+          "title": "Network ID",
+          "type": "string"
+        },
+        {
+          "maxLength": 50,
+          "maximum": 0,
+          "minimum": 0,
+          "name": "networkName",
+          "title": "Network Name",
+          "type": "string"
+        },
+        {
+          "maxLength": 16,
+          "maximum": 0,
+          "minimum": 0,
+          "name": "serial",
+          "title": "AP Serial",
+          "type": "string"
+        }
+      ],
+      "base_type": "datatype",
+      "object_type": "tabletype"
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_02L9TZH5W95870XebPF2g8kSyIYcawUvljX",
+    "definition_workflow_02OARCHP59DKG3a0tK7TUy6BiXPtlSL1hh2"
+  ],
+  "dependent_workflows": [
+    "definition_workflow_02L9TZH5W95870XebPF2g8kSyIYcawUvljX",
+    "definition_workflow_02OARCHP59DKG3a0tK7TUy6BiXPtlSL1hh2"
+  ]
+}
